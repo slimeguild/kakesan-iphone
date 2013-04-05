@@ -10,6 +10,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   //[self deleteCookie];
+  
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   if ([self isLogin]) {
@@ -32,7 +33,7 @@
   if (error) {
     return NO;
   } else {
-    NSString *response = [request responseString];    
+    NSString *response = [request responseString];
     NSDictionary *dic = [response JSONValue];
     BOOL status = [[dic objectForKey:kStatusKey] boolValue];
     return  status;
@@ -71,6 +72,9 @@
   [self createAfterLoginView];
 }
 
+/******************************************
+ Application Delegate
+ ******************************************/
 - (void)applicationWillResignActive:(UIApplication *)application
 {
  

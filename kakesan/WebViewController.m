@@ -32,8 +32,8 @@
                                                                        target:self
                                                                        action:@selector(createEventButtonDidPushed:)
                                                                      jsAction:nil];
-  self.navigationItem.leftBarButtonItem = myEventButton;
-  self.navigationItem.rightBarButtonItem = createEventButton;
+  self.navigationItem.rightBarButtonItem = myEventButton;
+  self.navigationItem.leftBarButtonItem = createEventButton;
   return self;
 }
 
