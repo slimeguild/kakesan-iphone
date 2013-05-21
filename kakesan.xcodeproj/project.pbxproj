@@ -64,6 +64,7 @@
 		10A1021916C7DED900F108D9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A1021816C7DED900F108D9 /* WebViewController.m */; };
 		10A51BA316C901070019524B /* KSKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A51BA216C901070019524B /* KSKit.m */; };
 		10EB8E3E16D268FB008B9299 /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = 10EB8E3D16D268FB008B9299 /* 114.png */; };
+		10F2432B17326FE2001101B9 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F2432A17326FE2001101B9 /* iAd.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +183,7 @@
 		10A51BA116C900FC0019524B /* KSKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSKit.h; sourceTree = "<group>"; };
 		10A51BA216C901070019524B /* KSKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSKit.m; sourceTree = "<group>"; };
 		10EB8E3D16D268FB008B9299 /* 114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114.png; sourceTree = "<group>"; };
+		10F2432A17326FE2001101B9 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				10F2432B17326FE2001101B9 /* iAd.framework in Frameworks */,
 				1003792016C8ECF0002F645B /* QuartzCore.framework in Frameworks */,
 				1003791616C8E0A2002F645B /* libz.dylib in Frameworks */,
 				10A1018F16C7DCCC00F108D9 /* CoreGraphics.framework in Frameworks */,
@@ -286,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				1003791516C8E0A2002F645B /* libz.dylib */,
+				10F2432A17326FE2001101B9 /* iAd.framework */,
 				1003791F16C8ECF0002F645B /* QuartzCore.framework */,
 				1003791316C8E08C002F645B /* MobileCoreServices.framework */,
 				1003791116C8E085002F645B /* SystemConfiguration.framework */,
@@ -308,7 +312,6 @@
 				10A1021D16C7DFFE00F108D9 /* Utilities */,
 				10A101C716C7DDE200F108D9 /* Libraries */,
 				10A101C616C7DDD500F108D9 /* Controllers */,
-				10A101C516C7DDBA00F108D9 /* Views */,
 				10A1019116C7DCCC00F108D9 /* Supporting Files */,
 			);
 			path = kakesan;
@@ -345,13 +348,6 @@
 				10A101B716C7DCCC00F108D9 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		10A101C516C7DDBA00F108D9 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Views;
 			sourceTree = "<group>";
 		};
 		10A101C616C7DDD500F108D9 /* Controllers */ = {
@@ -730,12 +726,14 @@
 		10A101C116C7DCCC00F108D9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ko Miyagawa (S72R9W56L7)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kakesan/kakesan-Prefix.pch";
 				INFOPLIST_FILE = "kakesan/kakesan-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A6360D3C-6A35-454B-B391-4FBB765443CC";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

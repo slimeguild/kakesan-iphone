@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 #import "ODRefreshControl.h"
 #import "ErrorView.h"
 
@@ -10,7 +11,7 @@
 - (void) logoutFinished: (WebViewController*) webViewController;
 @end
 
-@interface WebViewController : UIViewController <UIWebViewDelegate,ErrorViewDelegate>
+@interface WebViewController : UIViewController <UIWebViewDelegate,ErrorViewDelegate,ADBannerViewDelegate>
 {
   __unsafe_unretained id <WebViewControllerDelegate> _webViewControllerDelegate;
 }
@@ -19,6 +20,8 @@
 @property (strong, nonatomic) UIActivityIndicatorView *indicator;
 @property (strong, nonatomic) ODRefreshControl *refreshControl;
 @property (strong, nonatomic) NSString *httpMethod;
+@property (strong, nonatomic) ADBannerView *adView;
+@property (assign, nonatomic) BOOL bannerIsVisible;
 
 - (id)initRootView;
 - (id)initWithTitle:(NSString *)title withURL: (NSString *)url;

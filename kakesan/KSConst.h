@@ -26,6 +26,7 @@ static NSString* const kSessionCheckPath = @"/sessions/check.json";
 static NSString* const kIndexEventPath = @"/themes";
 static NSString* const kMyEventPath = @"/private/talks";
 static NSString* const kCreateEventPath = @"/themes/new";
+static NSString* const kPostTokenPath = @"/ios";
 static NSString* const kJSStopLongTouch = @"document.documentElement.style.webkitTouchCallout = 'none';";
 ;
 static NSString* const kUserAgentKey = @"User-Agent";

@@ -2,6 +2,7 @@
 #import "KSConst.h"
 #import "SBJson.h"
 #import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
 #import "KSKit.h"
 
 @implementation kakesanAppDelegate
@@ -15,6 +16,7 @@
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   if ([self isLogin]) {
     [self createAfterLoginView];
+    [self setPushNotificationSettings];
   } else {
     [self createBeforeLoginView];
   }
@@ -64,13 +66,69 @@
   }
 }
 
+- (void) sendProviderDeviceToken: (NSString *)token
+{
+  NSString *urlStr = [kRootURL stringByAppendingString: kPostTokenPath];
+  NSURL *url = [NSURL URLWithString:urlStr];
+  ASIFormDataRequest* request = [ASIFormDataRequest requestWithURL:url];
+  [request setPostValue:token forKey:@"token"];
+  [request startSynchronous];
+  NSError *error = [request error];
+  if (error) {
+  }
+}
+
+- (void) setPushNotificationSettings
+{
+  [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+}
+
+
 /******************************************
  Login/Logout Delegate
  ******************************************/
 - (void) loginFinished:(WebViewController *)webViewController
 {
   [self createAfterLoginView];
+  [self setPushNotificationSettings];
 }
+
+/******************************************
+ RemoteNotification Delegate
+ ******************************************/
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+  NSString *deviceTokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+  deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+  application.applicationIconBadgeNumber = 0;
+  [self sendProviderDeviceToken: deviceTokenString];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+  UIApplicationState state = [application applicationState];
+  NSDictionary *apsInfo = [userInfo objectForKey:@"aps"];
+  
+  NSString *alertString = [apsInfo objectForKey:@"alert"];
+  if (state == UIApplicationStateActive) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:alertString
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil, nil];
+    [alert show];
+  }
+  //NSString *sound = [apsInfo objectForKey:@"sound"];
+  //AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+  
+  NSString *badge = [apsInfo objectForKey:@"badge"];
+  application.applicationIconBadgeNumber = [[apsInfo objectForKey:badge] integerValue];
+}
+
 
 /******************************************
  Application Delegate

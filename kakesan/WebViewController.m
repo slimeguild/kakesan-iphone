@@ -13,6 +13,8 @@
 @synthesize indicator = _indicator;
 @synthesize refreshControl = _refreshControl;
 @synthesize httpMethod = _httpMethod;
+@synthesize adView = _adView;
+@synthesize bannerIsVisible = _bannerIsVisible;
 
 /******************************************
  Init Methods
@@ -78,9 +80,26 @@
   if (self.tabBarController) {
     extraHeight = extraHeight + kTabbarHeight;
   }
+  extraHeight = extraHeight + 100;
+  
   self.webView.frame = CGRectMake(0, 0, screenWidth, (screenHeight - extraHeight));
-  if (self.indicator) {
+    if (self.indicator) {
     self.indicator.center = self.webView.center;
+  }
+}
+
+- (void) viewDidLoad {
+  [super viewDidLoad];
+  if (!self.adView) {
+    CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+    self.adView = [[ADBannerView alloc] initWithFrame:CGRectZero];
+    self.adView.currentContentSizeIdentifier = ADBannerContentSizeIdentifierPortrait;
+    self.adView.frame = CGRectOffset(self.adView.frame, 0, screenRect.size.height);
+    [self.view addSubview: self.adView];
+    self.adView.delegate = self;
+    self.bannerIsVisible = NO;
+    NSLog(@"bannerViewCreate");
+    NSLog(@"%d", self.bannerIsVisible);
   }
 }
 
@@ -317,6 +336,37 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 }
 
 
+/******************************************
+ BannerView Delegate
+ ******************************************/
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+  NSLog(@"bannerViewDidLoadAd");
+  if (!self.bannerIsVisible) {
+    [UIView animateWithDuration:1.0
+                     animations:^{
+                       self.adView.frame = CGRectOffset(banner.frame, 0, -banner.frame.size.height);
+                     }
+    ];
+    self.bannerIsVisible = YES;
+  }
+  NSLog(@"%d", self.bannerIsVisible);
+  NSLog(@"%@", NSStringFromCGRect(self.adView.frame));
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError*)error
+{
+  NSLog(@"didFailToReceiveAdWithError");
+  if (self.bannerIsVisible) {
+    [UIView animateWithDuration:1.0
+                     animations:^{
+                       self.adView.frame = CGRectOffset(banner.frame, 0, banner.frame.size.height);
+                     }
+    ];
+    self.bannerIsVisible = NO;
+  }
+  NSLog(@"%d", self.bannerIsVisible);
+}
 
 /******************************************
  Login / Logout
